@@ -37,6 +37,6 @@ class FatalODSchema(pl.BaseSchema):
             year=today.year, month=today.month, day=today.day
         )
 
-fatal_od_pipeline = pl.Pipeline().extract(pl.CSVExtractor, firstline=True) \
+fatal_od_pipeline = pl.Pipeline().extract(pl.CSVExtractor, firstline_headers=True) \
     .schema(FatalODSchema) \
     .load(pl.Datapusher)
