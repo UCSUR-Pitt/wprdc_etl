@@ -13,10 +13,10 @@ class TestODPipeline(TestBase):
             settings_file=self.settings_file,
             conn=self.conn
         ) \
-            .extract(pl.CSVExtractor, firstline_headers=True) \
+            .extract(pl.CSVExtractor, os.path.join(HERE, '../mock/fatal_od_mock.csv'), firstline_headers=True) \
             .schema(FatalODSchema) \
             .load(self.Loader) \
-            .run(os.path.join(HERE, '../mock/fatal_od_mock.csv'))
+            .run()
         status = self.cur.execute('select * from status').fetchall()
         self.assertEquals(len(status), 1)
         self.assertEquals(status[0][-2], 'success')
