@@ -6,9 +6,23 @@ import sqlite3
 HERE = os.path.abspath(os.path.dirname(__file__))
 
 from pipeline.loaders import Loader
+from pipeline.extractors import Extractor
 
 class TestLoader(Loader):
     def load(self, data):
+        pass
+
+class TestExtractor(Extractor):
+    def extract(self):
+        return []
+
+    def handle_line(self, line):
+        return []
+
+    def cleanup(self, *args, **kwargs):
+        return True
+
+    def set_headers(self):
         pass
 
 class TestBase(unittest.TestCase):
