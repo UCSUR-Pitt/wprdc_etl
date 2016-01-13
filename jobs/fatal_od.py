@@ -1,7 +1,10 @@
+import os
 import datetime
 from marshmallow import fields, post_load
 
 import pipeline as pl
+
+HERE = os.path.abspath(os.path.dirname(__file__))
 
 class FatalODSchema(pl.BaseSchema):
     death_date = fields.DateTime(format='%m/%d/%Y')
@@ -38,6 +41,6 @@ class FatalODSchema(pl.BaseSchema):
         )
 
 fatal_od_pipeline = pl.Pipeline('fatal_od_pipeline', 'Fatal OD Pipeline') \
-    .extract(pl.CSVExtractor, firstline_headers=True) \
+    .extract(pl.CSVExtractor, os.path.join(HERE, '../test/mock/fatal_od_mock.csv'), firstline_headers=True) \
     .schema(FatalODSchema) \
     .load(pl.Datapusher)
