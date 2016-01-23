@@ -39,7 +39,7 @@ class Pipeline(object):
                 pipeline's ``run`` method is called
         '''
         self.data = []
-        self._extractor, self._schema, self._loader = None, None, None
+        self._connector, self._extractor, self._schema, self._loader = None, None, None, None
         self.name = name
         self.display_name = display_name
 
@@ -76,6 +76,17 @@ class Pipeline(object):
             raise InvalidConfigException(
                 'No config file found, or config not properly formatted'
             )
+
+    def connect(self, connector, *args, **kwargs):
+        '''Set the connector class and related arguments
+
+        Arguments:
+            connector: Connector class, see :ref:`built-in-connectors`
+        '''
+        self._connector = connector
+        self.connector_args = list(args)
+        self.connector_kwargs = dict(**kwargs)
+        return self
 
     def extract(self, extractor, target, *args, **kwargs):
         '''Set the extractor class and related arguments
@@ -171,27 +182,32 @@ class Pipeline(object):
         The run method works essentially as follow:
 
         1. Ensure that we have all pieces of the pipeline
-        2. Instantiate the extractor, passing it whatever args
-           and kwargs needed
-        3. Run the extract method, which should return an iterable
+        2. Instantiate the connector
+        3. Instantiate the extractor, passing it the connector and
+           whatever args and kwargs needed
+        4. Run the extract method, which should return an iterable
            of different data methods
-        4. Instantiate our schema and attach it to the pipeline
-        5. Iterate through the extracted raw data, using the extractor's
+        5. Instantiate our schema and attach it to the pipeline
+        6. Iterate through the extracted raw data, using the extractor's
            ``handle_line`` to extract the data from each line, and
            then run the ``load_line`` method to attach each row to the
            pipeline's ``data`` attribute. At the end of the iteration,
            call the extractor's ``cleanup`` attribute.
-        6. Instantiate the loader and then load the data
-        7. Finally, at the end of the run, run a final log, and run the
+        7. Instantiate the loader and then load the data
+        8. Finally, at the end of the run, run a final log, and run the
            close method to shut down the pipeline
         '''
         self.pre_run()
 
         try:
             self.enforce_full_pipeline()
-            # instantiate a new extrator instance based on the passed extract class
+            # instantiate a new connector instance base on the passed connector class
+            _connector = self._connector(
+                    self.target, *(self.sextractor_args), **(self.connector_kwargs)
+            )
+            # instantiate a new extrator instance based on the passed extractor class
             _extractor = self._extractor(
-                self.target, *(self.extractor_args), **(self.extractor_kwargs)
+                _connector, *(self.extractor_args), **(self.extractor_kwargs)
             )
             # instantiate a new schema instance based on the passed schema class
             raw = _extractor.extract()

@@ -2,13 +2,13 @@ import csv
 from pipeline.exceptions import IsHeaderException
 
 class Extractor(object):
-    def __init__(self, target, *args, **kwargs):
+    def __init__(self, connector, *args, **kwargs):
         '''Extractor base class
 
         Attributes:
-            target: location of object to be extracted from
+            connector: connector to gather file to be extracted from
         '''
-        self.target = target
+        self.connector = connector
 
     def extract(self):
         '''Return a generator. Must be implemented in subclasses
@@ -34,7 +34,7 @@ class FileExtractor(Extractor):
     '''Base class for file-based extraction
     '''
     def extract(self):
-        '''Open the file object
+        '''Open the file object using from ``connector``
 
         Returns:
             f: a ``file`` object
@@ -43,7 +43,7 @@ class FileExtractor(Extractor):
             IOError: When there are problems opening the file
         '''
         try:
-            f = open(self.target, 'r')
+            f = self.connector.connect()
             return f
         except IOError as e:
             raise e
@@ -55,10 +55,10 @@ class FileExtractor(Extractor):
         return
 
 class CSVExtractor(FileExtractor):
-    def __init__(self, target, *args, **kwargs):
+    def __init__(self, connector, *args, **kwargs):
         '''FileExtractor subclass for csv or character-delimited files
         '''
-        super(CSVExtractor, self).__init__(target)
+        super(CSVExtractor, self).__init__(connector)
         self.firstline_headers = kwargs.get('firstline_headers', True)
         self.headers = kwargs.get('headers', None)
         self.delimiter = kwargs.get('delimiter', ',')
@@ -74,7 +74,7 @@ class CSVExtractor(FileExtractor):
         Returns:
             csv.reader object
         '''
-        f = open(self.target, 'r')
+        f = self.connector.connect()
         self.__file = f
         reader = csv.reader(f, delimiter=self.delimiter)
         return reader
@@ -137,13 +137,10 @@ class CSVExtractor(FileExtractor):
             self.schema_headers = self.headers
             return
         elif self.firstline_headers:
-            with open(self.target) as f:
+            with open(self.connector) as f:
                 reader = csv.reader(f, delimiter=self.delimiter)
                 self.headers = next(reader)
                 self.schema_headers = self.create_schema_headers(self.headers)
                 return
         else:
             raise RuntimeError('No headers were passed or detected.')
-
-class SFTPExtractor(Extractor):
-    pass

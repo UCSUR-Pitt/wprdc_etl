@@ -9,3 +9,7 @@ class IsHeaderException(Exception):
     handled further down in the pipeline
     '''
     pass
+
+class MissingCredentialsException(Exception):
+    '''Exception to be thrown when a required username and/or password are missing'''
+    pass

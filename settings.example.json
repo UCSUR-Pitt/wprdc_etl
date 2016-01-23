@@ -6,5 +6,12 @@
       "Name": "ckan-generated hash"
     },
     "statusdb": ":memory:"
+  },
+  "example-sftp":{
+    "host": "hostname or IP",
+    "username": "username",
+    "password": "password",
+    "dir": "/path/to/pull_directory/",
+    "port": 22
   }
 }
