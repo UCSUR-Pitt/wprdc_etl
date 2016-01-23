@@ -34,7 +34,7 @@ class FileExtractor(Extractor):
     '''Base class for file-based extraction
     '''
     def extract(self):
-        '''Open the file object using from ``connector``
+        '''Open the file object generate by ``connector``
 
         Returns:
             f: a ``file`` object
