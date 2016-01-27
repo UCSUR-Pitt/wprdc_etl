@@ -1,0 +1,11 @@
+REPORT_NAME,CCR,SECTION,DESCRIPTION,ARREST_DATE,ARREST_TIME,ADDRESS,NEIGHBORHOOD,ZONE,AGE,GENDER
+OFFENSE 2.0,16014625,9488,False  Burglar Alarm,01/25/2016,06:02,3400 block California Ave,Brighton Heights,1,,
+OFFENSE 2.0,16014792,3921,Theft by Unlawful Taking or Disposition.,01/25/2016,11:00,600 block Pressley St,East Allegheny,1,,
+OFFENSE 2.0,16014727,3304(a)(5),CRIMINAL MISCHIEF - Intentionally Damages Real Or Personal Property Of Another,01/25/2016,11:04,Mercy St,Fineview,1,,
+ARREST,16014723,13(a)(32),Paraphernalia - Use or Possession,01/25/2016,11:05,600 block East Ohio St,East Allegheny,1,21,F
+OFFENSE 2.0,16014723,13(a)(32),Paraphernalia - Use or Possession,01/25/2016,11:05,600 block East Ohio St,East Allegheny,1,,
+ARREST,15244537,3921,Theft by Unlawful Taking or Disposition.,01/25/2016,11:10,800 block Phineas St,East Allegheny,1,22,M
+ARREST,15244537,903,Criminal Conspiracy.,01/25/2016,11:10,800 block Phineas St,East Allegheny,1,22,M
+ARREST,15244537,3925,Receiving Stolen Property.,01/25/2016,11:10,800 block Phineas St,East Allegheny,1,22,M
+ARREST,15244537,3502,Burglary.,01/25/2016,11:10,800 block Phineas St,East Allegheny,1,22,M
+OFFENSE 2.0,16014797,2709(a),Harassment.,01/25/2016,13:30,100 block Hazlett St,Northview Heights,1,,

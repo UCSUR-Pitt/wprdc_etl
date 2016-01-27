@@ -34,6 +34,7 @@ class TestBase(unittest.TestCase):
     def setUp(self):
         self.default_server = 'testing'
         self.settings_file = os.path.join(HERE, '../mock/test_settings.json')
+        self.Connector = TestConnector
         self.Loader = TestLoader
 
         with open(self.settings_file) as f:
