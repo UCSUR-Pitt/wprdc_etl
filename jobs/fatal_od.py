@@ -41,6 +41,7 @@ class FatalODSchema(pl.BaseSchema):
         )
 
 fatal_od_pipeline = pl.Pipeline('fatal_od_pipeline', 'Fatal OD Pipeline') \
-    .extract(pl.CSVExtractor, os.path.join(HERE, '../test/mock/fatal_od_mock.csv'), firstline_headers=True) \
+    .connect(pl.LocalFileConnector, os.path.join(HERE, '../test/mock/fatal_od_mock.csv')) \
+    .extract(pl.CSVExtractor, firstline_headers=True) \
     .schema(FatalODSchema) \
     .load(pl.CKANUpsertLoader)
