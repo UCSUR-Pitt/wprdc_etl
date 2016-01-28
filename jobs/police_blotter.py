@@ -21,14 +21,73 @@ class PoliceBlotterSchema(pl.BaseSchema):
 
     @post_load
     def combine_date_and_time(self, in_data):
-        in_data['arrest_date_and_time'] = datetime.datetime(
+        in_data['arrest_time'] = str(datetime.datetime(
             in_data['arrest_date'].year, in_data['arrest_date'].month,
             in_data['arrest_date'].day, in_data['arrest_time'].hour,
             in_data['arrest_date'].minute, in_data['arrest_date'].second
-        )
+        ))
+        in_data.pop('arrest_date')
 
-police_blotter_pipeline = pl.Pipeline('police_blotter_pipeline', 'Fatal OD Pipeline') \
+
+fields = [
+            {
+                "type": "text",
+                "id": "REPORT_NAME"
+            },
+            {
+                "type": "numeric",
+                "id": "CCR"
+            },
+            {
+                "type": "text",
+                "id": "SECTION"
+            },
+            {
+                "type": "text",
+                "id": "DESCRIPTION"
+            },
+            {
+                "type": "timestamp",
+                "id": "ARREST_TIME"
+            },
+            {
+                "type": "text",
+                "id": "ADDRESS"
+            },
+            {
+                "type": "text",
+                "id": "NEIGHBORHOOD"
+            },
+            {
+                "type": "numeric",
+                "id": "ZONE"
+            },
+            {
+                "type": "numeric",
+                "id": "AGE"
+            },
+            {
+                "type": "text",
+                "id": "GENDER"
+            }
+        ]
+package_id = '83ba85c6-9fd5-4603-bd98-cc9002e206dc'
+resource_name = 'Incidents'
+
+# Hack fix for fields capitalization issue
+for field in fields:
+    field['id'] = field['id'].lower()
+
+
+
+police_blotter_pipeline = pl.Pipeline('police_blotter_pipeline', 'Police Blotter Pipeline') \
     .connect(pl.RemoteFileConnector, url) \
     .extract(pl.CSVExtractor) \
     .schema(PoliceBlotterSchema) \
-    .load(pl.CKANUpsertLoader)
+    .load(pl.CKANUpsertLoader,
+          fields=fields,
+          package_id=package_id,
+          resource_name=resource_name,
+          method='insert')
+
+police_blotter_pipeline.run()
