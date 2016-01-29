@@ -84,10 +84,8 @@ police_blotter_pipeline = pl.Pipeline('police_blotter_pipeline', 'Police Blotter
     .connect(pl.RemoteFileConnector, url) \
     .extract(pl.CSVExtractor) \
     .schema(PoliceBlotterSchema) \
-    .load(pl.CKANUpsertLoader,
+    .load(pl.CKANDatastoreLoader,
           fields=fields,
           package_id=package_id,
           resource_name=resource_name,
           method='insert')
-
-police_blotter_pipeline.run()
