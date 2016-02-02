@@ -9,7 +9,8 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 class FatalODSchema(pl.BaseSchema):
     death_date = fields.DateTime(format='%m/%d/%Y')
     death_time = fields.DateTime(format='%I:%M %p')
-    manner_of_death = fields.String()
+    death_date_and_time = fields.DateTime(dump_only=True)
+    manner_of_death = fields.String(ckan_serializer='foobar')
     age = fields.Integer()
     sex = fields.String()
     race = fields.String()
@@ -28,17 +29,16 @@ class FatalODSchema(pl.BaseSchema):
     @post_load
     def combine_date_and_time(self, in_data):
         death_date, death_time = in_data['death_date'], in_data['death_time']
+        today = datetime.datetime.today()
+
         in_data['death_date_and_time'] = datetime.datetime(
             death_date.year, death_date.month, death_date.day,
             death_time.hour, death_time.minute, death_time.second
         )
-
-    @post_load
-    def replace_death_time_date(self, in_data):
-        today = datetime.datetime.today()
         in_data['death_time'].replace(
             year=today.year, month=today.month, day=today.day
         )
+        return
 
 fatal_od_pipeline = pl.Pipeline('fatal_od_pipeline', 'Fatal OD Pipeline') \
     .connect(pl.LocalFileConnector, os.path.join(HERE, '../test/mock/fatal_od_mock.csv')) \
