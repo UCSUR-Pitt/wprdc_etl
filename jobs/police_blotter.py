@@ -35,7 +35,7 @@ police_blotter_pipeline = pl.Pipeline('police_blotter_pipeline', 'Police Blotter
     .extract(pl.CSVExtractor) \
     .schema(PoliceBlotterSchema) \
     .load(pl.CKANDatastoreLoader,
-          fields=PoliceBlotterSchema().serialize_to_ckan_fields(),
+          fields=PoliceBlotterSchema().serialize_to_ckan_fields(capitalize=True),
           package_id=package_id,
           resource_name=resource_name,
           method='insert')

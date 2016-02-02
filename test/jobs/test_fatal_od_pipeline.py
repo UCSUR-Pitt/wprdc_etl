@@ -13,7 +13,7 @@ class TestODPipeline(TestBase):
             settings_file=self.settings_file,
             conn=self.conn
         ) \
-            .connect(pl.LocalFileConnector, os.path.join(HERE, '../mock/fatal_od_mock.csv')) \
+            .connect(pl.FileConnector, os.path.join(HERE, '../mock/fatal_od_mock.csv')) \
             .extract(pl.CSVExtractor, firstline_headers=True) \
             .schema(FatalODSchema) \
             .load(self.Loader) \

@@ -17,6 +17,9 @@ class TestConnector(Connector):
     def connect(self, target):
         return []
 
+    def checksum_contents(self):
+        return ''
+
     def close(self):
         return True
 
@@ -50,6 +53,7 @@ class TestBase(unittest.TestCase):
                 display_name TEXT,
                 last_ran INTEGER,
                 start_time INTEGER NOT NULL,
+                input_checksum TEXT,
                 status TEXT,
                 num_lines INTEGER,
                 PRIMARY KEY (display_name, start_time)

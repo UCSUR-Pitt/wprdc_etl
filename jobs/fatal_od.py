@@ -10,7 +10,7 @@ class FatalODSchema(pl.BaseSchema):
     death_date = fields.DateTime(format='%m/%d/%Y')
     death_time = fields.DateTime(format='%I:%M %p')
     death_date_and_time = fields.DateTime(dump_only=True)
-    manner_of_death = fields.String(ckan_serializer='foobar')
+    manner_of_death = fields.String()
     age = fields.Integer()
     sex = fields.String()
     race = fields.String()
@@ -41,7 +41,7 @@ class FatalODSchema(pl.BaseSchema):
         return
 
 fatal_od_pipeline = pl.Pipeline('fatal_od_pipeline', 'Fatal OD Pipeline') \
-    .connect(pl.LocalFileConnector, os.path.join(HERE, '../test/mock/fatal_od_mock.csv')) \
+    .connect(pl.FileConnector, os.path.join(HERE, '../test/mock/fatal_od_mock.csv')) \
     .extract(pl.CSVExtractor, firstline_headers=True) \
     .schema(FatalODSchema) \
     .load(pl.CKANDatastoreLoader)
