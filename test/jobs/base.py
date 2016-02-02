@@ -7,20 +7,28 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 
 from pipeline.loaders import Loader
 from pipeline.extractors import Extractor
+from pipeline.connectors import Connector
 
 class TestLoader(Loader):
     def load(self, data):
         pass
 
+class TestConnector(Connector):
+    def connect(self, target):
+        return []
+
+    def checksum_contents(self):
+        return ''
+
+    def close(self):
+        return True
+
 class TestExtractor(Extractor):
-    def extract(self):
+    def process_connection(self):
         return []
 
     def handle_line(self, line):
         return []
-
-    def cleanup(self, *args, **kwargs):
-        return True
 
     def set_headers(self):
         pass
@@ -29,6 +37,7 @@ class TestBase(unittest.TestCase):
     def setUp(self):
         self.default_server = 'testing'
         self.settings_file = os.path.join(HERE, '../mock/test_settings.json')
+        self.Connector = TestConnector
         self.Loader = TestLoader
 
         with open(self.settings_file) as f:
@@ -44,6 +53,7 @@ class TestBase(unittest.TestCase):
                 display_name TEXT,
                 last_ran INTEGER,
                 start_time INTEGER NOT NULL,
+                input_checksum TEXT,
                 status TEXT,
                 num_lines INTEGER,
                 PRIMARY KEY (display_name, start_time)
