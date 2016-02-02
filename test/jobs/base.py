@@ -17,7 +17,7 @@ class TestConnector(Connector):
     def connect(self, target):
         return []
 
-    def checksum_contents(self):
+    def checksum_contents(self, target):
         return ''
 
     def close(self):

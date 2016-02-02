@@ -40,8 +40,22 @@ class FatalODSchema(pl.BaseSchema):
         )
         return
 
+    @post_load
+    def stringify_datetimes(self, in_data):
+        in_data['death_date'] = str(in_data['death_date'])
+        in_data['death_time'] = str(in_data['death_time'])
+        in_data['death_date_and_time'] = str(in_data['death_date_and_time'])
+
+package_id = '945f9505-f33b-46e1-9c43-6c3315b4b0cd'
+resource_name = 'Fatal Accidental OD 2014'
+
 fatal_od_pipeline = pl.Pipeline('fatal_od_pipeline', 'Fatal OD Pipeline') \
     .connect(pl.FileConnector, os.path.join(HERE, '../test/mock/fatal_od_mock.csv')) \
     .extract(pl.CSVExtractor, firstline_headers=True) \
     .schema(FatalODSchema) \
-    .load(pl.CKANDatastoreLoader)
+    .load(pl.CKANDatastoreLoader,
+          fields=FatalODSchema().serialize_to_ckan_fields(capitalize=False),
+          package_id=package_id,
+          resource_name=resource_name,
+          method='insert')
+
