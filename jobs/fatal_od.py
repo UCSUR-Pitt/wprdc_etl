@@ -49,7 +49,7 @@ class FatalODSchema(pl.BaseSchema):
 package_id = '945f9505-f33b-46e1-9c43-6c3315b4b0cd'
 resource_name = 'Fatal Accidental OD 2014'
 
-fatal_od_pipeline = pl.Pipeline('fatal_od_pipeline', 'Fatal OD Pipeline') \
+fatal_od_pipeline = pl.Pipeline('fatal_od_pipeline', 'Fatal OD Pipeline', log_status=False) \
     .connect(pl.FileConnector, os.path.join(HERE, '../test/mock/fatal_od_mock.csv')) \
     .extract(pl.CSVExtractor, firstline_headers=True) \
     .schema(FatalODSchema) \
@@ -58,4 +58,3 @@ fatal_od_pipeline = pl.Pipeline('fatal_od_pipeline', 'Fatal OD Pipeline') \
           package_id=package_id,
           resource_name=resource_name,
           method='insert')
-
