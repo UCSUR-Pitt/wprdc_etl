@@ -41,7 +41,7 @@ class TestBase(unittest.TestCase):
         self.Loader = TestLoader
 
         with open(self.settings_file) as f:
-            db = json.loads(f.read())[self.default_server]['statusdb']
+            db = json.loads(f.read())[self.default_server]['general']['statusdb']
 
         self.conn = sqlite3.connect(db)
         self.cur = self.conn.cursor()
