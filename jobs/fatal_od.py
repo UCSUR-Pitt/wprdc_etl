@@ -1,5 +1,6 @@
 import os
 import datetime
+import json
 from marshmallow import fields, post_load
 
 import pipeline as pl
@@ -49,8 +50,13 @@ class FatalODSchema(pl.BaseSchema):
 package_id = '945f9505-f33b-46e1-9c43-6c3315b4b0cd'
 resource_name = 'Fatal Accidental OD 2014'
 
+target = 'accidental_fatal_overdoses/fatal_od_mock.csv'
+
+with open(HERE + '/../settings.json') as f:
+    sftp_config = json.load(f)['county_sftp']
+
 fatal_od_pipeline = pl.Pipeline('fatal_od_pipeline', 'Fatal OD Pipeline', log_status=False) \
-    .connect(pl.FileConnector, os.path.join(HERE, '../test/mock/fatal_od_mock.csv')) \
+    .connect(pl.SFTPConnector, target, **sftp_config, encoding=None) \
     .extract(pl.CSVExtractor, firstline_headers=True) \
     .schema(FatalODSchema) \
     .load(pl.CKANDatastoreLoader,
@@ -58,3 +64,4 @@ fatal_od_pipeline = pl.Pipeline('fatal_od_pipeline', 'Fatal OD Pipeline', log_st
           package_id=package_id,
           resource_name=resource_name,
           method='insert')
+
