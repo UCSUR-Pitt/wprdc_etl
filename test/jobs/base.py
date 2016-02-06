@@ -35,13 +35,12 @@ class TestExtractor(Extractor):
 
 class TestBase(unittest.TestCase):
     def setUp(self):
-        self.default_server = 'testing'
-        self.settings_file = os.path.join(HERE, '../mock/test_settings.json')
+        self.settings_file = os.path.join(HERE, '../mock/first_test_settings.json')
         self.Connector = TestConnector
         self.Loader = TestLoader
 
         with open(self.settings_file) as f:
-            db = json.loads(f.read())[self.default_server]['general']['statusdb']
+            db = json.loads(f.read())['general']['statusdb']
 
         self.conn = sqlite3.connect(db)
         self.cur = self.conn.cursor()
