@@ -9,7 +9,6 @@ class TestODPipeline(TestBase):
     def test_blotter_pipeline(self):
         pl.Pipeline(
             'fatal_od_pipeline', 'Fatal OD Pipeline',
-            server=self.default_server,
             settings_file=self.settings_file,
             conn=self.conn
         ) \

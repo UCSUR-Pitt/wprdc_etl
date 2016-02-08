@@ -47,13 +47,16 @@ class FatalODSchema(pl.BaseSchema):
         in_data['death_date_and_time'] = str(in_data['death_date_and_time'])
 
 package_id = '945f9505-f33b-46e1-9c43-6c3315b4b0cd'
-resource_name = 'Fatal Accidental OD 2014'
+resource_name = 'THIS IS A TEST 2'
+
+target = 'accidental_fatal_overdoses/fatal_od_mock.csv'
+
 
 fatal_od_pipeline = pl.Pipeline('fatal_od_pipeline', 'Fatal OD Pipeline', log_status=False) \
-    .connect(pl.FileConnector, os.path.join(HERE, '../test/mock/fatal_od_mock.csv')) \
+    .connect(pl.SFTPConnector, target, config_string='sftp.county_sftp', encoding=None) \
     .extract(pl.CSVExtractor, firstline_headers=True) \
     .schema(FatalODSchema) \
-    .load(pl.CKANDatastoreLoader,
+    .load(pl.CKANDatastoreLoader, 'ckan',
           fields=FatalODSchema().serialize_to_ckan_fields(capitalize=False),
           package_id=package_id,
           resource_name=resource_name,
