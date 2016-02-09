@@ -26,6 +26,9 @@ class FatalODSchema(pl.BaseSchema):
     decedent_zip = fields.Integer()
     case_year = fields.Integer()
 
+    class Meta:
+        ordered = True
+
     @post_load
     def combine_date_and_time(self, in_data):
         death_date, death_time = in_data['death_date'], in_data['death_time']
@@ -47,8 +50,7 @@ class FatalODSchema(pl.BaseSchema):
         in_data['death_date_and_time'] = str(in_data['death_date_and_time'])
 
 package_id = '945f9505-f33b-46e1-9c43-6c3315b4b0cd'
-resource_name = 'THIS IS A TEST 2'
-
+resource_name = 'THIS IS A TEST 3'
 target = 'accidental_fatal_overdoses/fatal_od_mock.csv'
 
 
