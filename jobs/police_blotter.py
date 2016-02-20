@@ -36,7 +36,7 @@ class PoliceBlotterSchema(pl.BaseSchema):
 package_id = '83ba85c6-9fd5-4603-bd98-cc9002e206dc'
 resource_name = 'Incidents'
 
-police_blotter_pipeline = pl.Pipeline('police_blotter_pipeline', 'Police Blotter Pipeline') \
+police_blotter_pipeline = pl.Pipeline('police_blotter_pipeline', 'Police Blotter Pipeline', log_status=False) \
     .connect(pl.RemoteFileConnector, url) \
     .extract(pl.CSVExtractor) \
     .schema(PoliceBlotterSchema) \

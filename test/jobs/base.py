@@ -33,6 +33,9 @@ class TestExtractor(Extractor):
     def set_headers(self):
         pass
 
+    def extract(self):
+        return []
+
 class TestBase(unittest.TestCase):
     def setUp(self):
         self.settings_file = os.path.join(HERE, '../mock/first_test_settings.json')
