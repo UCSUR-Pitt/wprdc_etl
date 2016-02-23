@@ -43,11 +43,6 @@ class FatalODSchema(pl.BaseSchema):
         )
         return
 
-    @post_load
-    def stringify_datetimes(self, in_data):
-        in_data['death_date'] = str(in_data['death_date'])
-        in_data['death_time'] = str(in_data['death_time'])
-        in_data['death_date_and_time'] = str(in_data['death_date_and_time'])
 
 package_id = '945f9505-f33b-46e1-9c43-6c3315b4b0cd'
 resource_name = 'THIS IS A TEST 3'

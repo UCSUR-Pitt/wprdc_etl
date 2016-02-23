@@ -30,12 +30,6 @@ class AsbestosPermitSchema(pl.BaseSchema):
     class Meta:
         ordered = True
 
-    #todo: fix loader to use Schema.dumps instead of turning dates to strings
-    @post_load
-    def stringify_datetimes(self, in_data):
-        in_data['i_date'] = str(in_data['i_date'])
-        in_data['e_date'] = str(in_data['e_date'])
-        in_data['permit_o_e_date'] = str(in_data['permit_o_e_date'])
 
 package_id = '649d8d69-9901-483f-9989-3f112ba23cc4'
 resource_name = 'Asbestos Permits'
