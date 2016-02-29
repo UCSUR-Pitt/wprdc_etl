@@ -48,6 +48,3 @@ jail_census_monthly_pipeline = pl.Pipeline('jail_census_monthly_pipeline', 'Jail
           package_id=package_id,
           resource_name=monthly_resource_name,
           method='insert')
-
-jail_census_combined_pipeline.run()
-jail_census_monthly_pipeline.run()
