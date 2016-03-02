@@ -5,7 +5,7 @@ import pipeline as pl
 
 from .base import TestBase, HERE
 
-class TestODPipeline(TestBase):
+class TestPermitsPipeline(TestBase):
     def test_permits_pipeline(self):
         pl.Pipeline(
             'asbestos_permits_pipeline', 'Asbestos Permit Pipeline',
