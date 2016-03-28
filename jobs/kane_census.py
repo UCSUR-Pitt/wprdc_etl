@@ -40,9 +40,9 @@ class KaneCensusSchema(pl.BaseSchema):
 package_id = '79f7236b-76fb-4a41-9011-e5594e01c57c'
 resource_name = 'Kane Monthly Census Data'
 
-today = datetime.date.today() - datetime.timedelta(days=1)
+yesterday = datetime.date.today() - datetime.timedelta(days=1)
 
-target = 'Kane_Daily_Census/Census Demographics-Kane {}.xlsx'.format(today.strftime('%m%d%Y'))
+target = 'Kane_Daily_Census/Census Demographics-Kane {}.xlsx'.format(yesterday.strftime('%m%d%Y'))
 
 kane_census_pipeline = pl.Pipeline('kane_census_pipeline', 'Kane Census  Pipeline', log_status=True) \
     .connect(pl.SFTPConnector, target, config_string='sftp.county_sftp', encoding=None) \
