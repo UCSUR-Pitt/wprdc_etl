@@ -24,11 +24,11 @@ yesterday = datetime.date.today() - datetime.timedelta(days=1)
 
 package_id = '79f7236b-76fb-4a41-9011-e5594e01c57c'
 combined_resource_name = 'ACJ Daily Census Data (Combined)'
-monthly_resource_name = 'ACJ Daily Census Data - {}/{}'.format(yesterday.month, yesterday.year)
+monthly_resource_name = 'ACJ Daily Census Data - {:02d}/{}'.format(yesterday.month, yesterday.year)
 target = 'jail_census_data/acj_daily_population_{}.csv'.format(yesterday.strftime('%Y%m%d'))
 
 # Combined Data
-jail_census_combined_pipeline = pl.Pipeline('jail_census_combined_pipeline', 'Jail Census Combined Pipeline', log_status=False) \
+jail_census_combined_pipeline = pl.Pipeline('jail_census_combined_pipeline', 'Jail Census Combined Pipeline', log_status=True) \
     .connect(pl.SFTPConnector, target, config_string='sftp.county_sftp', encoding='utf-8') \
     .extract(pl.CSVExtractor, firstline_headers=True) \
     .schema(JailCensusSchema) \

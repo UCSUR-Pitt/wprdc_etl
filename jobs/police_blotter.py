@@ -2,9 +2,6 @@ import datetime
 from marshmallow import fields, post_load, pre_load
 import pipeline as pl
 
-yesterday = (datetime.datetime.now() - datetime.timedelta(days=1))
-url = 'http://apps.pittsburghpa.gov/police/arrest_blotter/arrest_blotter_%s.csv' % (yesterday.strftime("%A"))
-
 class PoliceBlotterSchema(pl.BaseSchema):
     report_name = fields.String(dump_to='REPORT_NAME')
     ccr = fields.Integer(dump_to='CCR')
@@ -34,10 +31,14 @@ class PoliceBlotterSchema(pl.BaseSchema):
             in_data['arrest_time'].minute, in_data['arrest_time'].second
         ))
 
+# Target Info
+yesterday = (datetime.datetime.now() - datetime.timedelta(days=1))
+url = 'http://apps.pittsburghpa.gov/police/arrest_blotter/arrest_blotter_%s.csv' % (yesterday.strftime("%A"))
+
 package_id = '83ba85c6-9fd5-4603-bd98-cc9002e206dc'
 resource_name = 'Incidents'
 
-police_blotter_pipeline = pl.Pipeline('police_blotter_pipeline', 'Police Blotter Pipeline', log_status=False) \
+police_blotter_pipeline = pl.Pipeline('police_blotter_pipeline', 'Police Blotter Pipeline', log_status=True) \
     .connect(pl.RemoteFileConnector, url) \
     .extract(pl.CSVExtractor) \
     .schema(PoliceBlotterSchema) \
