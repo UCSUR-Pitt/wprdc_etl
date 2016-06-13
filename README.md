@@ -5,6 +5,7 @@
 
 ETL Processes for the [Western Pennsylvania Regional DataCenter](https://www.wprdc.org). 
 
+To see examples of how it's used, check out the [WPRDC ETL Jobs](https://github.com/WPRDC/etl-jobs).
 ### Develop
 
 It is highly recommended that you use use [virtualenv](https://readthedocs.org/projects/virtualenv/) (and [virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/) for convenience). For a how-to on getting set up, please consult this [howto](https://github.com/codeforamerica/howto/blob/master/Python-Virtualenv.md).
@@ -44,3 +45,4 @@ open _build/html/index.html
 ```
 
 A make.bat file is included for windows users as well.
+
