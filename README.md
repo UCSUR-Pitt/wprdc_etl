@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/UCSUR-Pitt/wprdc-etl.svg?branch=master)](https://travis-ci.org/UCSUR-Pitt/wprdc-etl)
+[![Build Status](https://travis-ci.org/WPRDC/wprdc-etl.svg?branch=master)](https://travis-ci.org/WPRDC/wprdc-etl)
 [![Documentation Status](https://readthedocs.org/projects/wprdc-etl/badge/?version=latest)](https://wprdc-etl.readthedocs.org/en/latest/)
 
 # WPRDC-ETL
